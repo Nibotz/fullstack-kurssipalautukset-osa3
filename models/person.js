@@ -3,13 +3,13 @@ const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URL
-console.log('connecting to database');
+console.log('connecting to database')
 mongoose.connect(url)
-  .then(response => {
-    console.log('succeeded to connect database');
+  .then(() => {
+    console.log('succeeded to connect database')
   })
   .catch(error => {
-    console.log('failed to connect database', error.message);
+    console.log('failed to connect database', error.message)
   })
 
 const personSchema = new mongoose.Schema({

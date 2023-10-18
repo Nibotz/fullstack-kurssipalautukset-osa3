@@ -5,7 +5,7 @@ const cors = require('cors')
 const morgan = require('morgan')
 const Person = require('./models/person')
 
-morgan.token('postData', (req, res) => JSON.stringify(req.body))
+morgan.token('postData', (req) => JSON.stringify(req.body))
 
 app.use(express.static('dist'))
 app.use(express.json())
@@ -38,7 +38,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -48,7 +48,7 @@ app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   if (!body) {
-    return response.status(400).json({ error: "content missing" })
+    return response.status(400).json({ error: 'content missing' })
   }
   /*else if (notes.persons.some(n => n.name === body.name)) {
     return response.status(400).json({ error: "name must be unique" })
@@ -70,8 +70,8 @@ app.put('/api/persons/:id', (request, response, next) => {
   const body = request.body
 
   Person.findByIdAndUpdate(
-    request.params.id, 
-    { name: body.name, number: body.number }, 
+    request.params.id,
+    { name: body.name, number: body.number },
     { new: true, runValidators: true, context: 'query' }
   )
     .then(updatedPerson => {
@@ -101,5 +101,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })
